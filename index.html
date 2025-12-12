@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eren vs Gorilla</title>
+    <style>
+        /* 1. Reset default margins and set the page height */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black; /* Black background */
+            overflow: hidden; /* Prevents scrolling if images fit perfectly */
+        }
+
+        /* 2. Container to hold the two images side-by-side */
+        .container {
+            display: flex;       /* Enables side-by-side layout */
+            width: 100%;
+            height: 100vh;       /* Full viewport height */
+            align-items: center; /* Centers images vertically if they aren't full height */
+            justify-content: center;
+        }
+
+        /* 3. Style for the image wrappers (left and right sides) */
+        .split {
+            flex: 1;             /* Each side takes up exactly 50% width */
+            height: 100%;        /* Full height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;    /* Hides excess image parts if they are too big */
+        }
+
+        /* 4. The actual images */
+        img {
+            height: 100%;        /* Make image fill the height of the screen */
+            width: 100%;         /* Make image fill the width of its half */
+            object-fit: cover;   /* Ensures the image covers the area without stretching */
+        }
+
+        /* OPTIONAL: Specific alignment to make faces 'kiss' in the middle */
+        /* 'object-position' controls which part of the image is visible */
+        
+        .left-side img {
+            object-position: right center; /* Focus on the right side of your face */
+        }
+
+        .right-side img {
+            object-position: left center;  /* Focus on the left side of gorilla's face */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="split left-side">
+            <img src="me.jpg" alt="My Face">
+        </div>
+
+        <div class="split right-side">
+            <img src="gorilla.jpg" alt="Gorilla Face">
+        </div>
+    </div>
+
+</body>
+</html>
