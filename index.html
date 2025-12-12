@@ -4,65 +4,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eren vs Gorilla</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 1. Reset default margins and set the page height */
-        body, html {
+        * {
             margin: 0;
             padding: 0;
-            height: 100%;
-            background-color: black; /* Black background */
-            overflow: hidden; /* Prevents scrolling if images fit perfectly */
+            box-sizing: border-box;
         }
 
-        /* 2. Container to hold the two images side-by-side */
-        .container {
-            display: flex;       /* Enables side-by-side layout */
+        body {
+            background-color: black;
+            font-family: 'Orbitron', monospace;
+            color: white;
+            /* REMOVED overflow: hidden to allow scrolling */
+        }
+
+        /* --- SECTION 1: THE FACES (HERO) --- */
+        .hero-container {
+            display: flex;
             width: 100%;
-            height: 100vh;       /* Full viewport height */
-            align-items: center; /* Centers images vertically if they aren't full height */
+            height: 100vh; /* Takes up full initial screen */
+            align-items: center;
             justify-content: center;
+            background-color: black;
+            position: relative;
+            z-index: 10;
         }
 
-        /* 3. Style for the image wrappers (left and right sides) */
-        .split {
-            flex: 1;             /* Each side takes up exactly 50% width */
-            height: 100%;        /* Full height */
+        .image-wrapper {
+            flex: 1;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: all 0.5s ease;
+        }
+
+        /* --- ALIGNMENT FIXES --- */
+        
+        .image-wrapper.left { justify-content: flex-start; }
+        .image-wrapper.right { 
+            justify-content: flex-end; 
+            position: relative; /* Added position relative */
+        }
+
+        .gorilla-img {
+            transform: none;
+            transform-origin: center center;
+            object-position: left center;
+        }
+
+        .human-img {
+            transform: translateX(600px) scale(0.9);
+            transform-origin: center center;
+            object-position: right center;
+        }
+
+        /* ----------------------- */
+
+        .image-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.45) 75%, rgba(0,0,0,0.9) 100%);
+            z-index: 1;
+        }
+
+        .image-wrapper.left::before,
+        .image-wrapper.right::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Fade into the outer edges so images blend into the black background */
+        .image-wrapper.left::before {
+            background: linear-gradient(to left, rgba(0,0,0,0) 55%, rgba(0,0,0,0.85) 100%);
+        }
+
+        .image-wrapper.right::before {
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 90%);
+            z-index: 10;
+        }
+
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            font-size: clamp(24px, 6vw, 60px);
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 1);
+            white-space: nowrap;
+        }
+
+        /* --- SECTION 2: THE GIF SEPARATOR --- */
+        .gif-separator {
+            width: 100%;
+            height: 60vh; /* Adjust height of the GIF section here */
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;    /* Hides excess image parts if they are too big */
+            background-color: black;
+            overflow: hidden;
+            margin: 50px 0; /* Adds some spacing pure black before/after */
         }
 
-        /* 4. The actual images */
-        img {
-            height: 100%;        /* Make image fill the height of the screen */
-            width: 100%;         /* Make image fill the width of its half */
-            object-fit: cover;   /* Ensures the image covers the area without stretching */
+        .gif-separator img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* or 'contain' if you want the whole GIF visible */
+            opacity: 0.8;
         }
 
-        /* OPTIONAL: Specific alignment to make faces 'kiss' in the middle */
-        /* 'object-position' controls which part of the image is visible */
-        
-        .left-side img {
-            object-position: right center; /* Focus on the right side of your face */
+        /* Top Gradient */
+        .gif-separator::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%; /* How far down the black fades */
+            background: linear-gradient(to bottom, black, transparent);
+            z-index: 2;
         }
 
-        .right-side img {
-            object-position: left center;  /* Focus on the left side of gorilla's face */
+        /* Bottom Gradient */
+        .gif-separator::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%; /* How far up the black fades */
+            background: linear-gradient(to top, black, transparent);
+            z-index: 2;
         }
 
+        /* Placeholder for content after GIF */
+        .footer-space {
+            height: 50vh;
+            background-color: black;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                flex-direction: column;
+            }
+            .gorilla-img, .human-img {
+                transform: none;
+                object-position: center;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="split left-side">
-            <img src="Gemini_Generated_Image_2ca49s2ca49s2ca4.png" alt="My Face">
+    <div class="hero-container">
+        <div class="image-wrapper left">
+            <img src="Gemini_Generated_Image_kmzkjpkmzkjpkmzk.png" alt="Gorilla Face" class="gorilla-img">
         </div>
+        
+        <h1 class="center-text">Future awaits</h1>
+        
+           <div class="image-wrapper right">
+             <img src="Gemini_Generated_Image_2ca49s2ca49s2ca4.png" alt="My Face" class="human-img">
+        </div>
+    </div>
 
-        <div class="split right-side">
-            <img src="Gemini_Generated_Image_kmzkjpkmzkjpkmzk.png" alt="Gorilla Face">
-        </div>
+    <div class="gif-separator">
+        <img src="matrix_seamless_loop.gif" alt="Separator Animation">
+    </div>
+
+    <div class="footer-space">
+        <p style="color: #333;">End of Page</p>
     </div>
 
 </body>
