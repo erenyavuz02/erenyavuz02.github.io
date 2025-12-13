@@ -16,6 +16,7 @@
             background-color: black;
             font-family: 'Orbitron', monospace;
             color: white;
+            cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjYiIGZpbGw9IndoaXRlIi8+PC9zdmc+'), auto;
             /* REMOVED overflow: hidden to allow scrolling */
         }
 
@@ -57,13 +58,13 @@
         }
 
         .gorilla-img {
-            transform: none;
+            transform: translateX(-10%);
             transform-origin: center center;
             object-position: left center;
         }
 
         .human-img {
-            transform: translateX(600px) scale(0.9);
+            transform: translateX(450px) scale(0.9);
             transform-origin: center center;
             object-position: right center;
         }
@@ -109,7 +110,7 @@
             letter-spacing: 4px;
             text-transform: uppercase;
             text-align: center;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 1);
+            text-shadow: 0 0 20px rgba(0, 0, 0, 1), 0 0 30px rgba(255, 255, 255, 0.8);
             white-space: nowrap;
         }
 
@@ -159,10 +160,164 @@
 
         /* Placeholder for content after GIF */
         .footer-space {
-            height: 50vh;
             background-color: black;
-            text-align: center;
-            padding-top: 50px;
+            color: white;
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-bottom: 80px;
+            padding: 0 60px;
+        }
+
+        .section.left-aligned {
+            margin-left: 0;
+            margin-right: auto;
+            max-width: 50%;
+            text-align: left;
+        }
+
+        .section.right-aligned {
+            margin-left: auto;
+            margin-right: 0;
+            max-width: 50%;
+            text-align: left;
+        }
+
+        .section-title {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .subsection-title {
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+        }
+
+        .content-text {
+            font-size: clamp(13px, 1.5vw, 16px);
+            color: #e0e0e0;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: clamp(13px, 1.5vw, 15px);
+        }
+
+        .skill-item {
+            padding: 8px 12px;
+            border: 1px solid #555;
+            border-radius: 3px;
+        }
+
+        .links-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .links-section a {
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: clamp(13px, 1.5vw, 15px);
+            transition: color 0.3s ease;
+        }
+
+        .links-section a:hover {
+            color: white;
+        }
+
+        /* Loading Spinner */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            position: absolute;
+            color: #666;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 80px;
+            letter-spacing: 1px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .footer-space {
+                padding: 50px 25px;
+            }
+            .section {
+                padding: 0;
+                max-width: 100% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            .section.left-aligned,
+            .section.right-aligned {
+                max-width: 100%;
+            }
+            .links-section {
+                flex-direction: column;
+                gap: 15px;
+                justify-content: flex-start;
+            }
         }
 
         @media (max-width: 768px) {
@@ -177,6 +332,13 @@
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div style="text-align: center;">
+            <div class="spinner"></div>
+            <div class="loading-text" style="animation: pulse 1.5s infinite; color: #00ff00; text-shadow: 0 0 10px #00ff00;">TAKING YOU TO THE FUTURE</div>
+        </div>
+    </div>
 
     <div class="hero-container">
         <div class="image-wrapper left">
@@ -195,8 +357,115 @@
     </div>
 
     <div class="footer-space">
-        <p style="color: #333;">End of Page</p>
+        <!-- ABOUT ME -->
+        <div class="section left-aligned">
+            <div class="section-title">About</div>
+            <p class="content-text">
+                <span class="highlight">Eren Yavuz</span> is a Computer Engineering and Industrial Engineering student at Koç University with a passion for <span class="highlight">machine learning, optimization, and cloud-based systems</span>. Based in Istanbul, Türkiye, combining technical excellence with strategic problem-solving to build scalable AI solutions and intelligent systems.
+            </p>
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="section right-aligned">
+            <div class="section-title">Education</div>
+            <div class="subsection-title">Koç University</div>
+            <p class="content-text">
+                <span class="highlight">B.S. Computer Engineering</span> & <span class="highlight">B.S. Industrial Engineering</span> (Double Major) • GPA 3.83
+            </p>
+            <p class="content-text">
+                Relevant Coursework: Deep Unsupervised Learning, Reinforcement Learning, Machine Learning, Algorithms & Complexity, Database Systems, Mathematical Programming
+            </p>
+        </div>
+
+        <!-- EXPERIENCE -->
+        <div class="section left-aligned">
+            <div class="section-title">Experience</div>
+            
+            <div class="subsection-title">Data Science Intern • dataLobster</div>
+            <p class="content-text">Optimized AWS serverless pipelines for real-time IoT anomaly detection, reducing data processing time by <span class="highlight">50%</span> and improving Lambda performance by <span class="highlight">30%</span>. Deployed ML inference systems handling billions of daily data rows.</p>
+
+            <div class="subsection-title">Teaching Assistant • Koç University</div>
+            <p class="content-text">Led laboratory sessions for 100+ students in Modeling and Simulation, providing mentorship in ARENA simulation software and advanced modeling concepts.</p>
+
+            <div class="subsection-title">Software Engineering Intern • Hitit Bilgisayar</div>
+            <p class="content-text">Developed flight reservations application using Spring Boot microservices architecture, Docker containerization, and Kafka messaging. Built responsive frontend with JavaScript and HTML/CSS.</p>
+        </div>
+
+        <!-- PROJECTS -->
+        <div class="section right-aligned">
+            <div class="section-title">Projects</div>
+            
+            <div class="subsection-title">LightVision: Long-Text-Aware Offline Text-to-Image Retrieval</div>
+            <p class="content-text">Built MobileCLIP-based image retrieval system with long-text adaptations, achieving <span class="highlight">25% better performance</span> than baseline while optimizing for resource-constrained mobile environments.</p>
+
+            <div class="subsection-title">Trajectory-Aware Reinforcement Learning for Multi-Hop Retrieval</div>
+            <p class="content-text">Applied IPO reinforcement learning to multi-hop information retrieval, extending LeReT with discounted rewards. Achieved <span class="highlight">20% performance improvement</span> on Google-Flan T5 model.</p>
+
+            <div class="subsection-title">Mathematical Programming for Metal Sheet Press Scheduling</div>
+            <p class="content-text">Developed MILP-based optimization model for manufacturing operations, delivering <span class="highlight">10x improvement</span> in reducing buffer stocks compared to existing production model.</p>
+        </div>
+
+        <!-- SKILLS -->
+        <div class="section left-aligned">
+            <div class="section-title">Skills</div>
+            <p class="content-text" style="margin-bottom: 15px;"><span class="highlight">Languages:</span> Python, Java, C, JavaScript</p>
+            <p class="content-text" style="margin-bottom: 15px;"><span class="highlight">ML & Data:</span> PyTorch, Pandas, NumPy, Scikit-learn</p>
+            <p class="content-text" style="margin-bottom: 15px;"><span class="highlight">Cloud & DevOps:</span> AWS (Lambda, S3, DynamoDB, Glue, SageMaker), Docker, Kafka</p>
+            <p class="content-text"><span class="highlight">Tools & Frameworks:</span> Spring Boot, SQL, Gurobi, CPLEX, Flutter, Pine Script</p>
+        </div>
+
+        <!-- LANGUAGES -->
+        <div class="section right-aligned">
+            <div class="section-title">Languages</div>
+            <p class="content-text"><span class="highlight">Turkish</span> (Native) • <span class="highlight">English</span> (Fluent) • <span class="highlight">German</span> (Basic)</p>
+        </div>
+
+        <!-- LINKS -->
+        <div class="links-section">
+            <a href="https://linkedin.com/in/eren-yavuz-ku/" target="_blank">LinkedIn</a>
+            <a href="https://github.com/erenyavuz02" target="_blank">GitHub</a>
+            <a href="mailto:eyavuz21@ku.edu.tr">Email</a>
+            <a href="tel:+905522019420">+90 (552) 201 9420</a>
+        </div>
     </div>
 
+    <script>
+        // Hide loading overlay when page is fully loaded
+        window.addEventListener('load', function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.add('hidden');
+        });
+
+        // Alternative: hide when DOM is ready (faster, but images might still be loading)
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            let imagesLoaded = 0;
+            const totalImages = images.length;
+
+            if (totalImages === 0) {
+                // No images, hide immediately
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.classList.add('hidden');
+                return;
+            }
+
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    imagesLoaded++;
+                    if (imagesLoaded === totalImages) {
+                        const loadingOverlay = document.getElementById('loadingOverlay');
+                        loadingOverlay.classList.add('hidden');
+                    }
+                });
+                img.addEventListener('error', function() {
+                    imagesLoaded++;
+                    if (imagesLoaded === totalImages) {
+                        const loadingOverlay = document.getElementById('loadingOverlay');
+                        loadingOverlay.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
